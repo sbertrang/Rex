@@ -42,7 +42,7 @@ sub execute {
 
    my %ret = %$vm;
 
-   my ( $prog, @opts ) = split m!\n!, $cmd;
+   my ( $prog, @args ) = split m!\n!, $cmd;
 
    if ( $prog =~ m!\A\Qqemu-system-\E(\S+)! ) {
       $ret{system} = $1;
@@ -53,7 +53,7 @@ sub execute {
 
    my %opts;
 
-   for my $line ( @opts ) {
+   for my $line ( @args ) {
       my ( $opt, $val ) = split m!\s+!, $line, 2;
 
       unless ( exists $opts{ $opt } ) {
@@ -68,6 +68,7 @@ sub execute {
    }
 
    $ret{opts} = \%opts;
+   $ret{args} = \@args;
 
    return \%ret;
 }
