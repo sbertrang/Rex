@@ -36,7 +36,7 @@ sub execute {
       die("VM $dom not running.");
    }
 
-   i_run "echo reset | nc -U $vm->{dir}/qemu.monitor";
+   i_run "echo system_reset | nc -U $vm->{dir}/qemu.monitor";
    if ( $? != 0 ) {
       die("Error rebooting vm $dom");
    }
