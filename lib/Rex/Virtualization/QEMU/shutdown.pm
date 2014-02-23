@@ -36,7 +36,7 @@ sub execute {
       die("VM $dom not running.");
    }
 
-   i_run "echo shutdown | nc -U $vm->{dir}/qemu.monitor";
+   i_run "echo quit | nc -U $vm->{dir}/qemu.monitor";
    if ( $? != 0 ) {
       die("Error shutdown vm $dom");
    }
