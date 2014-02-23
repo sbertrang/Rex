@@ -48,6 +48,7 @@ sub execute {
 
       $vms{$vm} = {
          name   => $vm,
+         dir    => "$dir/$vm",
          pid    => $pid,
          status => $status,
       };
