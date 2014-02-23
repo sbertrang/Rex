@@ -10,6 +10,7 @@ use strict;
 use warnings;
 
 use Rex::Logger;
+use Rex::Helper::Run;
 use Rex::Commands::File;
 use Rex::Commands::Fs;
 use Rex::Commands::Process;
@@ -19,7 +20,6 @@ sub execute {
    my $user = Rex::Config->get_user();
    my $dir = "~/.qemu/vms";
    my $cmdfile = "qemu.cmd";
-   my $pidfile = "qemu.pid";
 
    # lookup directory names
    my @vms = map m!/([^/]+)/\Q$cmdfile\E\z! ? $1 : (),
@@ -33,7 +33,7 @@ sub execute {
       ps();
 
    for my $vm ( @vms ) {
-      my $pid = cat "$dir/$vm/$pidfile";
+      my $pid = i_run "head -1 $dir/$vm/qemu.pid";
 
       if ( $pid && $pid =~ m/\A\s*([0-9]+)\b\s*/m ) {
          $pid = $1;
