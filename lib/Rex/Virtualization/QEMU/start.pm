@@ -9,11 +9,11 @@ package Rex::Virtualization::QEMU::start;
 use strict;
 use warnings;
 
-use Rex::Logger;
-use Rex::Helper::Run;
-use Rex::Commands::File;
 use Rex::Commands;
+use Rex::Commands::File;
 use Rex::Helper::Path;
+use Rex::Helper::Run;
+use Rex::Logger;
 
 use Rex::Virtualization::QEMU::info;
 

@@ -9,11 +9,11 @@ package Rex::Virtualization::QEMU::create;
 use strict;
 use warnings;
 
-use Rex::Logger;
-use Rex::Commands::Gather;
-use Rex::Commands::Fs;
 use Rex::Commands::File;
+use Rex::Commands::Fs;
+use Rex::Commands::Gather;
 use Rex::Helper::Run;
+use Rex::Logger;
 
 use Rex::Virtualization::QEMU::hypervisor;
 
@@ -53,7 +53,7 @@ sub execute {
             Rex::Logger::info("$_->{file} already exists. Using this.");
          }
          else {
-            Rex::Logger::debug("creating storage disk: \"$_->{file}\"");
+            Rex::Logger::debug(qq|creating storage disk: "$_->{file}"|);
             i_run "qemu-img create -f $_->{format} $_->{file} $_->{size}";
             if($? != 0) {
                die("Error creating storage disk: $_->{file}");
@@ -61,17 +61,17 @@ sub execute {
          }
       }
       elsif ($_->{template} && $_->{type} eq "file") {
-         Rex::Logger::info("building domain: \"$opts->{name}\" from template: \"$_->{template}\"");
+         Rex::Logger::info(qq|building domain: "$opts->{name}" from template: "$_->{template}"|);
          Rex::Logger::info("Please wait ...");
          i_run "qemu-img convert -f $_->{format} $_->{template} -O $_->{format} $_->{file}";
          if($? != 0) {
-            die("Error building domain: \"$opts->{name}\" from template: \"$_->{template}\"\nTemplate doesn't exist or the qemu-img binary is missing");
+            die(qq|Error building domain: "$opts->{name}" from template: "$_->{template}"\nTemplate doesn't exist or the qemu-img binary is missing|);
          }
       }
       push( @cmd, "-$_->{drive} $_->{file}" );
    }
 
-   Rex::Logger::info("creating domain: \"$opts->{name}\"");
+   Rex::Logger::info(qq|creating domain: "$opts->{name}"|);
 
    file $opts->{cmdfile},
       content => join "\n", @cmd;
